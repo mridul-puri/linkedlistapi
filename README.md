@@ -1,28 +1,132 @@
-# linkedlistapi
+LINKED LIST API (Java)
 
-This Application is written in Java using Spring Boot framework.
-----------------------------------------------------------------
+This is a web based application that exposes the following API endpoints for carrying out Linked List operations :
 
-Artifact Name :- 
+1) Create: To create a Linked List.
+2) Push: Add object to end of existing Linked List.
+3) Pop: Remove last object of the given Linked List.
+4) Remove: Delete the provided object form the given Linked List, if it exists.
+5) List: Show the complete Linked List.
+6) Reverse: Show the Linked List in reverse order.(Tail becomes new Head and Head becomes new Tail)
+7) Delete: Destroy the given Linked List completely.
 
-linked-list-api-1.0.jar
----------------------------------------
+- This is a Maven project written in Java using Spring Boot framework.
+- Appropriate error handling has been taken care of.
 
-How to run :- 
+The APIs can be used as per the examples below :-
 
-Give the following command to run on default port : java -jar linked-list-api-1.0.jar
-Give the following command to run on specific port :java -Dserver.port=<PORT> -jar linked-list-api-1.0.jar
--------------------------------------------------------------------------------------------------------------
+----------------------------------------
+CREATE API : POST /api/link
+	REQUEST body JSON 
+	{
+		name: 'John',
+		birthyear: 1981
+	}
+	
+	RESPONSE 
+	{
+		meta: {
+			id: 101,
+			length: 1
+		},
+		object: [{
+			id: 1,
+			name: 'John',
+			birthyear: 1981,
+			next: null
+		}]
+	}
+----------------------------------------
+PUSH API : PUT /api/link/101
+	REQUEST body JSON 
+	{
+		name: 'Doe',
+		birthyear: 1982
+	}
+	
+	RESPONSE 
+	{
+		meta: {
+			id: 101,
+			length: 2
+		},
+		object: [{
+			id: 1,
+			name: 'John',
+			birthyear: 1981,
+			next: 2
+		}, {
+			id: 2,
+			name: 'Doe',
+			birthyear: 1982,
+			next: null
+		}]
+	}
+----------------------------------------
+POP API : GET /api/link/pop/101
+	RESPONSE 
+	{
+		name: 'Lorem',
+		birthyear: 1912,
+	}
+----------------------------------------
+REMOVE API : POST /api/link/remove/101
+	REQUEST body JSON 
+	{
+		name: 'John',
+		birthyear: 1981
+	}
+	
+	RESPONSE 
+	{
+		meta: {
+			id: 101,
+			length: 1
+		},
+		object: [{
+			id: 2,
+			name: 'Doe',
+			birthyear: 1982,
+			next: null
+		}]
+	}
+----------------------------------------
+LIST API : GET /api/link/101
+	RESPONSE 
+	{
+		meta: {
+			id: 101,
+			length: 1
+		},
+		object: [{
+			id: 1,
+			name: 'John',
+			birthyear: 1981,
+			next: null
+		}]
+	}
+----------------------------------------
+REVERSE API : GET /api/link/reverse/101
+	RESPONSE 
+	{
+		meta: {
+			id: 101,
+			length: 3
+		},
+		object: [{
+			id: 2,
+			name: 'Doe',
+			birthyear: 1982,
+			next: null
+		}, {
+			id: 4,
+			name: 'Suma',
+			birthyear: 1921,
+			next: 2
+		}]
+	}
+----------------------------------------
+DELETE API : DELETE /api/link/101
+	RESPONSE status code 204, with empty response object.
+----------------------------------------
 
-Assumptions made :-
-
-1.Push functionality : The application allows to add more than one objects (to the specified list) with same 
-					   Request Body upon which it will assign a unique "id" to every such object.
-
-2.Remove functionality : In case more than one objects found in the given list that match the Request Body, 
-					     the application will remove every such object from the list.
-					   
-3.An "id" assigned to an object of a list is always incremental irrespective of any operation done on the list.
-  For instance, if a list has 3 objects with id = 1, id = 2 and id = 3 and then the objects with id = 2 and id = 3 
-  are REMOVED/POPPED, any object PUSHED to the list after this will be assigned id = 4 and so on.
--------------------------------------------------------------------------------------------------------------
